@@ -3,8 +3,14 @@
  * Uses Gemini AI for image processing
  */
 
-// Hardcoded Gemini API Key
-const GEMINI_API_KEY = 'AIzaSyC_-faY74wvN4fiGgJsoDEueoT-0SXWfRw';
+// API Key stored in localStorage (user enters once)
+function getApiKey() {
+    return localStorage.getItem('geminiApiKey') || '';
+}
+
+function setApiKey(key) {
+    localStorage.setItem('geminiApiKey', key);
+}
 
 // Application State
 const AppState = {
@@ -30,6 +36,21 @@ function initApp() {
     setupEventListeners();
     initializeDateSelectors();
     setDefaultDates();
+    checkApiKey();
+}
+
+function checkApiKey() {
+    if (!getApiKey()) {
+        showApiKeyPrompt();
+    }
+}
+
+function showApiKeyPrompt() {
+    const key = prompt('🔑 Enter your Gemini API Key:\n\n(Get one free at https://aistudio.google.com/apikey)\n\nThis is saved locally and only needs to be entered once.');
+    if (key && key.trim()) {
+        setApiKey(key.trim());
+        alert('✅ API Key saved! You can now use Magic Extract.');
+    }
 }
 
 function loadSavedRates() {
@@ -265,6 +286,12 @@ async function processImages() {
 }
 
 async function processWithGemini(imageDataUrl, retries = 3) {
+    const apiKey = getApiKey();
+    if (!apiKey) {
+        showApiKeyPrompt();
+        throw new Error('No API key');
+    }
+
     const base64 = imageDataUrl.split(',')[1];
     const mime = imageDataUrl.split(';')[0].split(':')[1];
     const surgeryTypes = Object.keys(AppState.rates[AppState.selectedCenter]);
@@ -280,7 +307,7 @@ Only include surgeries with count > 0. Use exact surgery names from the list.`;
 
     for (let attempt = 0; attempt < retries; attempt++) {
         try {
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
