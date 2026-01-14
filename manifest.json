@@ -2,7 +2,7 @@
     "name": "Pawsome Invoices",
     "short_name": "PawInvoice",
     "description": "Cute veterinary invoice generator for Dr. Jill Anne Rodrigues",
-    "start_url": "/index.html",
+    "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#fef7f0",
     "theme_color": "#7c3aed",
@@ -21,4 +21,5 @@
             "purpose": "any"
         }
     ]
+
 }
