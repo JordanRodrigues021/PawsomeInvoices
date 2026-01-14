@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🐾 Pawsome Invoices</title>
+    <meta name="description" content="Veterinary invoice generator for Dr. Jill Anne Rodrigues">
+    <meta name="theme-color" content="#7c3aed">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="floating-paws">
+        <span class="paw p1">🐾</span>
+        <span class="paw p2">🐾</span>
+        <span class="paw p3">🐾</span>
+        <span class="paw p4">🐾</span>
+        <span class="paw p5">🐾</span>
+    </div>
+
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon-wrapper">
+                        <span class="logo-icon">🐾</span>
+                        <span class="logo-heart">💖</span>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Pawsome Invoices</h1>
+                        <p class="tagline">✨ Making billing a walk in the park ✨</p>
+                    </div>
+                </div>
+                <button class="settings-btn" id="settingsBtn" title="Settings">⚙️</button>
+            </div>
+            <div class="doctor-badge">
+                <span class="badge-icon">👩‍⚕️</span>
+                <span class="badge-text">Dr. Jill Anne Rodrigues</span>
+            </div>
+        </header>
+
+        <div class="progress-container">
+            <div class="progress-step active" data-step="1">
+                <div class="step-circle"><span class="step-emoji">📷</span></div>
+                <span class="step-label">Upload</span>
+            </div>
+            <div class="progress-line">
+                <div class="progress-line-fill"></div>
+            </div>
+            <div class="progress-step" data-step="2">
+                <div class="step-circle"><span class="step-emoji">✏️</span></div>
+                <span class="step-label">Review</span>
+            </div>
+            <div class="progress-line">
+                <div class="progress-line-fill"></div>
+            </div>
+            <div class="progress-step" data-step="3">
+                <div class="step-circle"><span class="step-emoji">📄</span></div>
+                <span class="step-label">Invoice</span>
+            </div>
+        </div>
+
+        <!-- Step 1: Upload -->
+        <section class="step-section" id="step1" data-active="true">
+            <div class="card upload-card">
+                <div class="card-header">
+                    <span class="card-icon">📸</span>
+                    <h2 class="card-title">Upload Your Log Sheet</h2>
+                </div>
+
+                <div class="center-toggle">
+                    <button class="center-btn active" data-center="SOS">
+                        <span class="center-icon">🏥</span>
+                        <span class="center-name">SOS Foundation</span>
+                        <span class="center-subtitle">Save Our Strays</span>
+                    </button>
+                    <button class="center-btn" data-center="AAT">
+                        <span class="center-icon">🐕</span>
+                        <span class="center-name">AAT</span>
+                        <span class="center-subtitle">All About Them</span>
+                    </button>
+                </div>
+
+                <div class="date-selection">
+                    <div class="form-group">
+                        <label for="invoiceMonth">📅 Month</label>
+                        <select id="invoiceMonth">
+                            <option value="01">January</option>
+                            <option value="02">February</option>
+                            <option value="03">March</option>
+                            <option value="04">April</option>
+                            <option value="05">May</option>
+                            <option value="06">June</option>
+                            <option value="07">July</option>
+                            <option value="08">August</option>
+                            <option value="09">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="invoiceYear">📆 Year</label>
+                        <select id="invoiceYear"></select>
+                    </div>
+                </div>
+
+                <div class="upload-zone" id="uploadZone">
+                    <input type="file" id="fileInput" accept="image/*" capture="environment" multiple hidden>
+                    <div class="upload-content">
+                        <div class="upload-icon-wrapper">
+                            <span class="upload-icon">📷</span>
+                            <span class="upload-sparkle">✨</span>
+                        </div>
+                        <p class="upload-text">Tap to snap or upload photos!</p>
+                        <p class="upload-hint">🐱 Multiple pages? No problem! 🐶</p>
+                    </div>
+                </div>
+
+                <div class="image-preview-container" id="imagePreviewContainer" style="display: none;">
+                    <div class="preview-header">
+                        <h3>🖼️ Your Photos</h3>
+                        <button class="btn-add" id="addMoreImages">➕ Add More</button>
+                    </div>
+                    <div class="image-previews" id="imagePreviews"></div>
+                </div>
+
+                <div class="manual-entry-section">
+                    <div class="divider"><span>or</span></div>
+                    <button class="btn-manual" id="manualEntryBtn">✏️ Enter data manually</button>
+                </div>
+            </div>
+
+            <button class="btn-primary btn-magic" id="processBtn" disabled>
+                <span class="btn-icon">🪄</span>
+                <span class="btn-text">Magic Extract!</span>
+                <span class="btn-sparkles">✨</span>
+            </button>
+        </section>
+
+        <!-- Step 2: Review -->
+        <section class="step-section" id="step2" data-active="false">
+            <div class="card data-card">
+                <div class="card-header">
+                    <span class="card-icon">📝</span>
+                    <h2 class="card-title">Review Surgery Data</h2>
+                </div>
+
+                <div class="ai-status" id="ocrStatus" style="display: none;">
+                    <div class="ai-animation"><span class="ai-icon">🤖</span></div>
+                    <p class="status-text">AI is reading your handwriting...</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="ocrProgress"></div>
+                    </div>
+                </div>
+
+                <div class="data-table-container" id="dataTableContainer">
+                    <table class="data-table" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>📅 Date</th>
+                                <th>🏥 Surgery</th>
+                                <th>🔢 Qty</th>
+                                <th>💰 Rate</th>
+                                <th>💵 Amount</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTableBody"></tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="4">🎉 Grand Total</td>
+                                <td id="grandTotal">₹ 0.00</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <button class="btn-add-row" id="addRowBtn"><span>➕</span> Add Surgery</button>
+
+                <div class="deduction-section">
+                    <div class="deduction-header"><span>➖</span>
+                        <h3>Deductions</h3>
+                    </div>
+                    <div class="deduction-row">
+                        <label>Amount to deduct</label>
+                        <div class="deduction-input">
+                            <span class="currency">₹</span>
+                            <input type="number" id="deductionAmount" value="0" min="0" step="100">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn-back" id="backToStep1">← Back</button>
+                <button class="btn-primary" id="generateInvoiceBtn"><span>📄</span> Generate Invoice</button>
+            </div>
+        </section>
+
+        <!-- Step 3: Invoice -->
+        <section class="step-section" id="step3" data-active="false">
+            <div class="card invoice-card">
+                <div class="card-header">
+                    <span class="card-icon">📄</span>
+                    <h2 class="card-title">Your Invoice is Ready!</h2>
+                </div>
+
+                <div class="invoice-meta">
+                    <div class="form-group">
+                        <label for="invoiceNumber">📋 Invoice #</label>
+                        <input type="text" id="invoiceNumber" value="INV-000001">
+                    </div>
+                    <div class="form-group">
+                        <label for="invoiceDate">📅 Date</label>
+                        <input type="date" id="invoiceDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="dueDate">⏰ Due</label>
+                        <input type="date" id="dueDate">
+                    </div>
+                </div>
+
+                <div class="invoice-preview" id="invoicePreview"></div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn-back" id="backToStep2">← Edit</button>
+                <button class="btn-primary btn-download" id="downloadPdfBtn"><span>📥</span> Download PDF</button>
+            </div>
+            <button class="btn-print" id="printBtn">🖨️ Print Invoice</button>
+        </section>
+
+        <!-- Settings Modal -->
+        <div class="modal-overlay" id="settingsModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>⚙️ Rate Settings</h2>
+                    <button class="btn-close" id="closeSettingsBtn">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="rate-tabs">
+                        <button class="rate-tab active" data-tab="SOS">🏥 SOS</button>
+                        <button class="rate-tab" data-tab="AAT">🐕 AAT</button>
+                    </div>
+                    <div class="rate-table-editor" id="rateTableEditor"></div>
+                    <div class="add-surgery-form">
+                        <input type="text" id="newSurgeryName" placeholder="New surgery name...">
+                        <input type="number" id="newSurgeryRate" placeholder="₹ Rate" min="0">
+                        <button class="btn-add-surgery" id="addSurgeryTypeBtn">➕</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-primary" id="saveSettingsBtn">💾 Save Changes</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-content">
+                <span class="loading-paw">🐾</span>
+                <p id="loadingText">Working on it...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="rates.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // Register service worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration failed'));
+        }
+    </script>
+</body>
+
+</html>
